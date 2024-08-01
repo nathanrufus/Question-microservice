@@ -1,15 +1,14 @@
 {
-    "name": "etl-microservice",
-    "version": "1.0.0",
-    "description": "",
-    "main": "etl.js",
-    "scripts": {
-      "start": "node etl.js"
-    },
-    "dependencies": {
-      "amqplib": "^0.7.1",
-      "mysql2": "^2.2.5",
-      "sequelize": "^6.6.5"
-    }
+  "name": "etl",
+  "version": "1.0.0",
+  "description": "ETL application for processing questions and answers",
+  "main": "etl.js",
+  "scripts": {
+    "start": "node etl.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.8.0",
+    "sequelize": "^6.6.5",
+    "mysql2": "^2.2.5"
   }
-  
+}

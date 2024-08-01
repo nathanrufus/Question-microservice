@@ -1,10 +1,16 @@
+// backend/routes/question.js
 const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
 
+// Helper function to shuffle array
+const shuffleArray = (array) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
 router.get('/question', async (req, res) => {
   try {
-    const count = parseInt(req.query.count) || 1;
+    const count = parseInt(req.query.count) || 1; // Default to 1 if count is not provided
     const questions = await Question.findAll();
     
     if (questions.length === 0) {
@@ -12,13 +18,8 @@ router.get('/question', async (req, res) => {
     }
 
     const selectedQuestions = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < Math.min(count, questions.length); i++) {
       const question = questions[Math.floor(Math.random() * questions.length)];
-      
-      if (!question) {
-        return res.status(404).json({ error: 'Question not found' });
-      }
-
       const answers = [
         question.correctAnswer,
         question.wrongAnswer1,
@@ -30,11 +31,11 @@ router.get('/question', async (req, res) => {
         return res.status(500).json({ error: 'Insufficient answers available' });
       }
 
-      answers.sort(() => Math.random() - 0.5); // Shuffle answers
+      const shuffledAnswers = shuffleArray(answers);
 
       selectedQuestions.push({
         question: question.questionText,
-        answers: answers,
+        answers: shuffledAnswers,
         correctAnswer: question.correctAnswer
       });
     }
